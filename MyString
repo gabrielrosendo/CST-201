@@ -1,0 +1,176 @@
+import java.io.IOException;
+
+class MyString {
+	
+	private int curr_length = 0;
+	private char[] currentString;
+
+	public MyString(String input) {
+		currentString = new char[input.length()];
+		for (int i = 0; i < input.length(); i++) {
+			this.currentString[i] = input.charAt(i);
+		}
+		this.curr_length = input.length();
+	}
+
+	public MyString(char[] arr) {
+		currentString = new char[arr.length];
+		for (int i = 0; i < arr.length; i++) {
+			this.currentString[i] = arr[i];
+		}
+	}
+
+	MyString(MyString copy) {
+		this.curr_length = copy.curr_length;
+		this.currentString = copy.currentString;
+	}
+
+	int length() {
+		return curr_length;
+	}
+
+	public String toString() {
+		String str = "";
+		for (int i = 0; i < this.curr_length; i++) {
+			str += currentString[i];
+		}
+		return str;
+	}
+
+	boolean equals(MyString input) {
+		for (int i = 0; i < curr_length; i++) {
+			if (currentString[i] == input.currentString[i]) {
+				if (i == curr_length - 1) {
+					if (currentString.length == input.length()) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	int compareTo(String input) {
+		for (int i = 0; i < curr_length; i++) {
+			if (currentString[i] == input.charAt(i)) {
+				if (i == curr_length - 1) {
+					if (currentString.length == input.length()) {
+						return 0;
+					} else if (currentString.length < input.length()) {
+						return -1;
+					} else if (currentString.length > input.length()) {
+						return 1;
+					}
+				}
+			} else {
+				if (currentString[i] < input.charAt(i)) {
+					return -1;
+				} else {
+					return 1;
+				}
+
+			}
+
+		}
+		return 2;
+	}
+
+	char get(int i) {
+		return this.currentString[i];
+	}
+	
+	MyString concat(MyString input) {
+		String str = this.currentString.toString() + input.currentString.toString();
+		MyString result = new MyString(str);
+		return result;
+	}
+
+	MyString toLower() {
+		for (int i = 0; i < curr_length; i++) {
+			if (currentString[i] > 64 && currentString[i] < 91) {
+				currentString[i] += 32;
+			} else {
+				continue;
+			}
+		}
+		MyString returnString = new MyString(currentString);
+		return returnString;
+	}
+
+	MyString toUpper() {
+		for (int i = 0; i < curr_length; i++) {
+			if (currentString[i] > 96 && currentString[i] < 123) {
+				currentString[i] -= 32;
+			} else {
+				continue;
+			}
+		}
+		MyString returnString = new MyString(currentString);
+		return returnString;
+	}
+
+	MyString substring(int start) throws Exception {
+		String result = "";
+		if (start < 0 || start > curr_length) {
+			throw new Exception("Index out of bounds");
+		} else {
+			for (int i = start; i < curr_length; i++) {
+				result += currentString[i];
+			}
+		}
+		MyString resultString = new MyString(result);
+		return resultString;
+	}
+
+	MyString substring(int start, int end) throws Exception {
+		String result = "";
+		if (start < 0 || start > curr_length) {
+			throw new Exception("Index out of bounds");
+		} else if (end < 0 || end > curr_length) {
+			throw new Exception("Index out of bounds");
+		} else {
+			for (int i = start; i < end - 1; i++) {
+				result += currentString[i];
+			}
+		}
+		MyString resultString = new MyString(result);
+		return resultString;
+	}
+
+	int indexOf(MyString input) {
+		char[] sub = input.currentString;
+		char[] orig = currentString;
+		if (input.curr_length > curr_length) {
+			return -1;
+		}
+		for (int i = 0; i < curr_length; i++) {
+			int j;
+			for (j = 0; j < input.curr_length; j++)
+				if (orig[i + j] != sub[j])
+					break;
+			if (j == input.curr_length)
+				return i;
+
+		}
+		return -1;
+	}
+
+	int lastIndexOf(MyString input) {
+		char[] sub = input.currentString;
+		char[] orig = currentString;
+		if (input.curr_length > curr_length) {
+			return -1;
+		}
+		for (int i = 0; i < curr_length; i++) {
+			int j;
+			for (j = 0; j < input.curr_length; j++)
+				if (orig[i + j] != sub[j])
+					break;
+			if (j == input.curr_length)
+				return (i + input.curr_length);
+
+		}
+		return -1;
+	}
+
+}
